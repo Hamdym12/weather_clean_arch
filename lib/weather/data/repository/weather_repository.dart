@@ -10,4 +10,10 @@ class WeatherRepository implements BaseWeatherRepository{
   Future<Weather> getWeatherByCountryName(String countryName)async {
     return (await baseRemoteDatasource.getWeatherByCountryName(countryName))!;
   }
+
+  @override
+  Future<String> getWeatherByLatLon({required String lat, required String lon}) async{
+    return await baseRemoteDatasource.getWeatherByLatLon(lat: lat, lon: lon);
+  }
+  
 }

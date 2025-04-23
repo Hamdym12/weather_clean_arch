@@ -4,6 +4,7 @@ import 'package:weather_clean_arch/weather/data/models/weather_model.dart';
 
 abstract class BaseRemoteDataSource{
   Future<WeatherModel?> getWeatherByCountryName(String countryName);
+  Future getWeatherByLatLon({required String lat, required String lon});
 }
 
 class RemoteDatasource implements BaseRemoteDataSource{
@@ -19,5 +20,11 @@ class RemoteDatasource implements BaseRemoteDataSource{
       print(e);
       return null;
     }
+  }
+
+  @override
+  Future getWeatherByLatLon({required String lat, required String lon}) async{
+    // TODO: implement getWeatherByLatLon
+    return 'just for testing';
   }
 }

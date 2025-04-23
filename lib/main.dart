@@ -4,23 +4,23 @@ import 'package:weather_clean_arch/weather/data/repository/weather_repository.da
 import 'package:weather_clean_arch/weather/domain/entities/weather.dart';
 import 'package:weather_clean_arch/weather/domain/repository/base_weather_repository.dart';
 import 'package:weather_clean_arch/weather/domain/usecases/get_weather_by_country.dart';
+import 'package:weather_clean_arch/weather/domain/usecases/get_weather_by_lat_lon.dart';
 
 void main() async{
   BaseRemoteDataSource baseRemoteDataSource = RemoteDatasource();
   BaseWeatherRepository baseWeatherRepository = WeatherRepository(baseRemoteDataSource);
-  Weather weatherModel = await GetWeatherByCountryName(baseWeatherRepository).execute('Egypt');
+  Weather weather = await GetWeatherByCountryName(baseWeatherRepository).execute('Egypt');
+  var test = await GetWeatherByLatLong(baseWeatherRepository).execute(lat: 'lat', lon: 'lon');
+  print(test);
   runApp( MyApp(
-       countryName: weatherModel.cityName,
-       description: weatherModel.description,
-       main: weatherModel.main,
+       weather: weather,
   ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.countryName, required this.description, required this.main});
-  final String countryName;
-  final String description;
-  final String main;
+  const MyApp({super.key, required this.weather});
+  final Weather weather;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,10 +35,9 @@ class MyApp extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             spacing: 12,
             children: [
-              Text(countryName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),),
-              Icon(Icons.sunny,color: Colors.amber,size: 100,),
-              Text(description,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),),
-              Text(main,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
+              Text(weather.cityName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),),
+              Text(weather.description,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),),
+              Text(weather.main,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
             ],
           ),
         ),
